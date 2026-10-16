@@ -1,0 +1,14 @@
+# ModelSim: biblioteca compilada, ondas, transcript e projeto local
+sim/work/
+sim/transcript
+sim/*.wlf
+sim/wlf*
+sim/*.mpf
+sim/*.mti
+
+# Testes automáticos
+testes/run/
+__pycache__/
+
+# Cópia duplicada de rtl/fornecidos/Registrador.vhd
+PC.vhd
