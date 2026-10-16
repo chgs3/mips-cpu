@@ -159,7 +159,7 @@ mux_read_reg2 Read2_M(
 Banco_reg Registradores(
     .Clk(clk),
     .Reset(reset),
-    .RegWrite(RegWrite),
+    .RegWrite(RegWrite & (mux_write_register_out != 5'd0)), // $0 é sempre zero
     .ReadReg1(mux_read_reg1_out),
     .ReadReg2(mux_read_reg2_out),
     .WriteReg(mux_write_register_out),

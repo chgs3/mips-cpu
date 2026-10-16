@@ -179,6 +179,13 @@ f2: addi $12, $0, 12
 jr   $31
 """, {"R10": 10, "R11": 11, "R12": 12, "R29": 227, "R31": 4}, 300),
 
+    ("Escrita em $0 é ignorada", """
+addi $0, $0, 5
+add  $1, $0, $0
+pop  $0
+fim: j fim
+""", {"R0": 0, "R1": 0}, 200),
+
     ("Exceção: opcode inexistente", """
 addi $1, $0, 1
 .word 0xFC000000
