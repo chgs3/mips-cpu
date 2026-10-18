@@ -19,6 +19,7 @@ rtl/
     Banco_reg.vhd  Instr_Reg.vhd  Memoria.vhd  RegDesloc.vhd  Registrador.vhd  ula32.vhd
 sim/
   run.do                     Script do ModelSim: compila, aplica clock/reset, monta a onda e roda
+  teste.do                   Roda um programa (.asm/.mif) até o fim e lista os registradores no Transcript
   instrucoes.mif             Programa carregado pela Memoria (nome fixo em Memoria.vhd)
   TESTE.mif
 testes/
@@ -34,6 +35,17 @@ testes/
 Crie o projeto do ModelSim (`.mpf`) dentro de `sim/` ou copie o `.mif` para o diretório do projeto.
 
 Com o ModelSim aberto em `sim/`, digite no Transcript: `do run.do`.
+
+Para rodar um programa de teste e ver o resultado no Transcript:
+
+```
+do teste.do                  # lista os programas da pasta de testes
+do teste.do ula              # converte e roda ula.asm até o fim, uma exceção ou um laço
+do teste.do C:/x/prog.mif    # também aceita .asm/.mif em qualquer caminho
+```
+
+O `teste.do` sobrescreve `sim/instrucoes.mif`; para voltar ao programa de demonstração,
+rode `python testes/gerar_demo.py`.
 
 Ordem de compilação sugerida:
 

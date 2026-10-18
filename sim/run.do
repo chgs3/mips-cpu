@@ -46,5 +46,8 @@ add wave -label DadoEscrita -radix decimal sim:/CPU/datapath/mux_mem_write_out
 add wave -label MemSaida  -radix decimal sim:/CPU/datapath/memory_out
 add wave -label ALUOut    -radix decimal sim:/CPU/datapath/ALUout_out
 
-run 6000 ns
-catch {wave zoom full}
+# O teste.do reaproveita este script e controla a execucao por conta propria
+if {![info exists modo_teste]} {
+    run 6000 ns
+    catch {wave zoom full}
+}
