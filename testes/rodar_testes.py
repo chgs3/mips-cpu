@@ -186,6 +186,20 @@ pop  $0
 fim: j fim
 """, {"R0": 0, "R1": 0}, 200),
 
+    ("rte: rotina corrige a causa e volta para a instrução que falhou", """
+lui  $1, 0x7FFF
+addi $1, $1, 0x7FFF
+add  $2, $1, $1
+addi $3, $0, 3
+fim: j fim
+.org 120
+addi $21, $0, 254
+addi $1, $0, 1
+rte
+.org 254
+.byte 120
+""", {"R2": 2, "R3": 3, "R21": 254, "EPC": 8}, 300),
+
     ("Exceção: opcode inexistente", """
 addi $1, $0, 1
 .word 0xFC000000

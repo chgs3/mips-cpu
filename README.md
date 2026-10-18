@@ -24,6 +24,7 @@ sim/
 testes/
   rodar_testes.py            Suíte automática: monta programas, simula e confere os registradores
   gerar_demo.py              Regenera sim/instrucoes.mif com o programa de demonstração
+  asm_para_mif.py            Converte um programa .asm em sim/instrucoes.mif
   harness.py                 Montador MIPS mínimo + execução do ModelSim em modo texto
 ```
 
@@ -55,4 +56,5 @@ cd testes
 python rodar_testes.py          # todos os testes
 python rodar_testes.py pilha    # só os testes com "pilha" no nome
 python gerar_demo.py            # regrava sim/instrucoes.mif com o programa de demonstração
+python asm_para_mif.py prog.asm # converte prog.asm e grava em sim/instrucoes.mif
 ```

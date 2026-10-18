@@ -58,6 +58,7 @@ module UnidadeControle (
         SLL_1,SLL_2,SLL_3,SLL_4,
         MFLO_1,
         MFHI_1,
+        RTE_1,
         JR_1,JR_2,
         LUI_1,LUI_2,LUI_3,
         LB_1,LB_2,LB_3,LB_4,LB_5,
@@ -135,6 +136,7 @@ module UnidadeControle (
                     6'h0: next_state = SLL_1;
                     6'h1a: next_state = DIV_1;
                     6'h18: next_state = MUL_1;
+                    6'h13: next_state = RTE_1;
                     default: next_state = EXCEPTION_OPCODE;
                 endcase
             end
@@ -163,6 +165,7 @@ module UnidadeControle (
             POP_4: next_state = POP_5; POP_5: next_state = POP_6; POP_6: next_state = FETCH_1;
             MFLO_1: next_state = FETCH_1;
             MFHI_1: next_state = FETCH_1;
+            RTE_1: next_state = FETCH_1;
             JR_1: next_state = JR_2; JR_2: next_state = FETCH_1;
             SUB_1: next_state = SUB_2;
             SUB_2: next_state = (overflow) ? EXCEPTION_OVERFLOW : SUB_3;
@@ -504,6 +507,10 @@ module UnidadeControle (
 
             MFHI_1: begin
                 RegWrite = 1; RegDst = 2'b10; MenToReg = 4'b0010;
+            end
+
+            RTE_1: begin // PC <- EPC
+                PCSource = 3'b100; PCWrite = 1;
             end
 
             // --- PUSH rs ---

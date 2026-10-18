@@ -28,11 +28,10 @@ def localizar_vsim():
     sys.exit("vsim não encontrado. Defina a variável de ambiente VSIM com o caminho do vsim.exe.")
 
 
-VSIM = localizar_vsim()
 
 R_FUNCT = {"add": 0x20, "and": 0x24, "sub": 0x22, "slt": 0x2a, "div": 0x1a, "mult": 0x18,
            "jr": 0x08, "mfhi": 0x10, "mflo": 0x12, "sll": 0x00, "sra": 0x03,
-           "push": 0x05, "pop": 0x06}
+           "push": 0x05, "pop": 0x06, "rte": 0x13, "null": 0x3f}
 I_OP = {"addi": 0x08, "beq": 0x04, "bne": 0x05, "lb": 0x20, "lui": 0x0f,
         "lw": 0x23, "sb": 0x28, "sw": 0x2b}
 J_OP = {"j": 0x02, "jal": 0x03}
@@ -95,6 +94,8 @@ def montar(fonte):
                 rs = _reg(args[0])
             elif op in ("mfhi", "mflo", "pop"):
                 rd = _reg(args[0])
+            elif op in ("rte", "null"):
+                pass
             else:  # sll, sra
                 rd, rt, sh = _reg(args[0]), _reg(args[1]), int(args[2], 0)
             w = (rs << 21) | (rt << 16) | (rd << 11) | (sh << 6) | R_FUNCT[op]
@@ -151,7 +152,7 @@ quit -f
 """
     with open(f"{RUN_DIR}/compile.do", "w") as f:
         f.write(script)
-    saida = subprocess.run([VSIM, "-c", "-do", "compile.do"], cwd=RUN_DIR,
+    saida = subprocess.run([localizar_vsim(), "-c", "-do", "compile.do"], cwd=RUN_DIR,
                            capture_output=True, text=True).stdout
     if any("Error" in l for l in saida.splitlines()):
         print(saida)
@@ -185,7 +186,7 @@ def executar(nome, fonte, esperado, ciclos=300, rastrear=False):
     do.append("quit -f")
     with open(f"{RUN_DIR}/t.do", "w") as f:
         f.write("\n".join(do) + "\n")
-    saida = subprocess.run([VSIM, "-c", "-do", "t.do"], cwd=RUN_DIR,
+    saida = subprocess.run([localizar_vsim(), "-c", "-do", "t.do"], cwd=RUN_DIR,
                            capture_output=True, text=True).stdout
 
     obtido = dict(re.findall(r"^# VAL (\S+) (\S+)", saida, re.M))
